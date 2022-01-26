@@ -35,6 +35,19 @@ end
 def larger_than_russia
   # List each country name where the population is larger than 'Russia'.
   execute(<<-SQL)
+  SELECT
+    name
+  FROM
+    countries
+  WHERE
+    population > (
+      SELECT
+      population
+    FROM
+      countries
+    WHERE
+      name='Russia'
+    )
   SQL
 end
 
@@ -42,6 +55,21 @@ def richer_than_england
   # Show the countries in Europe with a per capita GDP greater than
   # 'United Kingdom'.
   execute(<<-SQL)
+  SELECT
+    name
+  FROM
+    countries
+  WHERE
+    continent = 'Europe'
+  AND  
+    (gdp/population) > (
+        SELECT
+        (gdp/population) AS per_capita2
+        From
+          countries
+        WHERE
+          name='United Kingdom'
+      )
   SQL
 end
 
@@ -49,6 +77,21 @@ def neighbors_of_certain_b_countries
   # List the name and continent of countries in the continents containing
   # 'Belize', 'Belgium'.
   execute(<<-SQL)
+  SELECT
+    name, continent
+  FROM
+    countries
+  WHERE
+    continent IN (
+      SELECT
+        continent
+      FROM
+        countries
+      WHERE
+        name='Belize'
+      OR
+        name='Belgium'
+    )
   SQL
 end
 
