@@ -75,6 +75,10 @@ class User
             id = ?
         SQL
     end
+
+    def authored_questions
+        Question.find_by_author_id(id)
+    end
 end
 
 class Question 
@@ -97,12 +101,132 @@ class Question
         SQL
         return nil unless question.length > 0
 
-        Question.new(question.first)
+        Question.new(question.all)
+    end
+
+    def initialize(options)
+        @id = options['id']
+        @title = options['title']
+        @body = options['body']
+        @author_id = options['author_id']
+    end
+
+    def create
+        raise "#{self} already in database" if self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.title, self.body, self.author_id)
+            INSERT INTO
+                questions (title, body, author_id)
+            VALUES
+                (?, ?, ?)
+        SQL
+        self.id = QuestionsDBConnection.instance.last_insert_row_id
+    end
+
+    def update
+        raise "#{self} not in database" unless self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.title, self.body, self.author_id, self.id)
+        UPDATE
+            questions
+        SET
+            title = ?, body = ?, author_id = ?
+        WHERE
+            id = ?
+        SQL
     end
 
     def author
         User.find_by_id(author_id)
     end
+end
 
+class QuestionFollow
 
+    attr_accessor :user_id, :question_id
+
+    def self.all
+        data = QuestionsDBConnection.instance.execute("SELECT * FROM question_follows")
+        data.map { |datum| QuestionFollow.new(datum) }
+    end
+
+    def initialize(options)
+        @user_id = options['user_id']
+        @question_id = options['question_id']
+    end
+
+    def create
+        raise "#{self} already in database" if self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id)
+            INSERT INTO
+                question_follows (user_id, question_id)
+            VALUES
+                (?, ?)
+        SQL
+        # self.id = QuestionsDBConnection.instance.last_insert_row_id
+    end
+
+    def update
+        raise "#{self} not in database" unless self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id)
+        UPDATE
+            question_follows
+        SET
+            user_id = ?, question_id = ?
+        SQL
+    end
+
+end
+
+class Reply
+    attr_accessor :id, :user_id, :question_id, :parent_id, :body
+
+    def self.all
+        data = QuestionsDBConnection.instance.execute("SELECT * FROM replies")
+        data.map { |datum| Reply.new(datum) }
+    end
+
+    def initialize(options)
+        @id = options['id']
+        @user_id = options['user_id']
+        @question_id = options['question_id']
+        @parent_id = options['parent_id']
+        @body = options['body']
+    end
+
+    def create
+        raise "#{self} already in database" if self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id, self.parent_id, self.body)
+            INSERT INTO
+                replies (user_id, question_id, parent_id, body)
+            VALUES
+                (?, ?, ?, ?)
+        SQL
+        self.id = QuestionsDBConnection.instance.last_insert_row_id
+    end
+
+    def update
+        raise "#{self} not in database" unless self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id, self.parent_id, self.body, self.id)
+        UPDATE
+            replies
+        SET
+            user_id = ?, question_id = ?, parent_id = ?, body = ?
+        WHERE
+            id = ?
+        SQL
+    end
+end
+
+class QuestionLike
+    attr_accessor :user_id, :question_id, :likes
+
+    def self.all
+        data = QuestionsDBConnection.instance.execute("SELECT * FROM question_likes")
+        data.map { |datum| QuestionLike.new(datum) }
+    end
+
+    def initialize(options)
+        @user_id = options['user_id']
+        @question_id = options['question_id']
+        @likes = options['likes']
+    end
 end
