@@ -99,6 +99,27 @@ def population_constraint
   # Which country has a population that is more than Canada but less than
   # Poland? Show the name and the population.
   execute(<<-SQL)
+  SELECT
+    name, population
+  FROM
+    countries
+  WHERE
+    population > (
+      SELECT
+        population
+      FROM
+        countries
+      WHERE
+        name = 'Canada'
+    )
+    AND population < (
+      SELECT
+        population
+      FROM
+        countries
+      WHERE
+        name = 'Poland'
+    )
   SQL
 end
 
@@ -107,6 +128,31 @@ def sparse_continents
   # population is less than 25,000,000. Show name, continent and
   # population.
   # Hint: Sometimes rewording the problem can help you see the solution.
+
+  #first find continent with sum population under 25million
+  #once we find continent, select all the countries from that continent
   execute(<<-SQL)
+  SELECT
+    name, continent, population
+  FROM
+    countries
+  WHERE
+    (
+      SELECT
+        continent
+      FROM
+        countries
+      WHERE
+        (
+          SELECT
+            SUM(population) AS total_pop
+          FROM
+            countries
+          GROUP BY
+            continent
+          HAVING
+            SUM(population) < 25000000
+        )
+    )
   SQL
 end
