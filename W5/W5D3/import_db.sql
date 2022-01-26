@@ -1,9 +1,11 @@
+PRAGMA foreign_keys = ON;
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
   f_name TEXT NOT NULL,
-  l_name TEXT NOT NULL,
+  l_name TEXT NOT NULL
 );
 ---------------------------------
 DROP TABLE IF EXISTS questions;
@@ -55,3 +57,7 @@ CREATE TABLE question_likes (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (question_id) REFERENCES questions(id)
 );
+
+INSERT INTO users(f_name, l_name) VALUES ('Michael', 'Jackson');
+
+INSERT INTO questions(title, body, author_id) VALUES ('Who''s bad?', 'wooooooooo!', (SELECT id FROM users WHERE f_name = 'Michael'));
