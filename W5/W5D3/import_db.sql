@@ -1,6 +1,10 @@
-PRAGMA foreign_keys = ON;
-
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS question_follows;
+DROP TABLE IF EXISTS replies;
+DROP TABLE IF EXISTS question_likes;
+
+PRAGMA foreign_keys = ON;
 
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
@@ -8,7 +12,7 @@ CREATE TABLE users (
   l_name TEXT NOT NULL
 );
 ---------------------------------
-DROP TABLE IF EXISTS questions;
+
 
 CREATE TABLE questions (
   id INTEGER PRIMARY KEY,
@@ -20,9 +24,8 @@ CREATE TABLE questions (
 );
 ---------------------------------
 
-DROP TABLE IF EXISTS question_follows;
-
 CREATE TABLE question_follows (
+  id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL,
   question_id INTEGER NOT NULL,
 
@@ -31,7 +34,6 @@ CREATE TABLE question_follows (
 );
 ---------------------------------
 
-DROP TABLE IF EXISTS replies;
 
 CREATE TABLE replies (
   id INTEGER PRIMARY KEY,
@@ -47,9 +49,10 @@ CREATE TABLE replies (
 
 ---------------------------------
 
-DROP TABLE IF EXISTS question_likes;
+
 
 CREATE TABLE question_likes (
+  id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL,
   question_id INTEGER NOT NULL,
   likes BOOLEAN NOT NULL,

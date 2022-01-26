@@ -141,7 +141,7 @@ end
 
 class QuestionFollow
 
-    attr_accessor :user_id, :question_id
+    attr_accessor :id, :user_id, :question_id
 
     def self.all
         data = QuestionsDBConnection.instance.execute("SELECT * FROM question_follows")
@@ -149,6 +149,7 @@ class QuestionFollow
     end
 
     def initialize(options)
+        @id = options['id']
         @user_id = options['user_id']
         @question_id = options['question_id']
     end
@@ -161,16 +162,18 @@ class QuestionFollow
             VALUES
                 (?, ?)
         SQL
-        # self.id = QuestionsDBConnection.instance.last_insert_row_id
+        self.id = QuestionsDBConnection.instance.last_insert_row_id
     end
 
     def update
         raise "#{self} not in database" unless self.id
-        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id)
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id, self.id)
         UPDATE
             question_follows
         SET
             user_id = ?, question_id = ?
+        WHERE
+            id = ?
         SQL
     end
 
@@ -217,7 +220,7 @@ class Reply
 end
 
 class QuestionLike
-    attr_accessor :user_id, :question_id, :likes
+    attr_accessor :id, :user_id, :question_id, :likes
 
     def self.all
         data = QuestionsDBConnection.instance.execute("SELECT * FROM question_likes")
@@ -225,8 +228,32 @@ class QuestionLike
     end
 
     def initialize(options)
+        @id = options['id']
         @user_id = options['user_id']
         @question_id = options['question_id']
         @likes = options['likes']
+    end
+
+    def create
+        raise "#{self} already in database" if self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id, self.likes)
+            INSERT INTO
+                question_likes (user_id, question_id, likes)
+            VALUES
+                (?, ?, ?)
+        SQL
+        self.id = QuestionsDBConnection.instance.last_insert_row_id
+    end
+
+    def update
+        raise "#{self} not in database" unless self.id
+        QuestionsDBConnection.instance.execute(<<-SQL, self.user_id, self.question_id, self.likes, self.id)
+        UPDATE
+            question_likes
+        SET
+            user_id = ?, question_id = ?, likes = ?
+        WHERE
+            id = ?
+        SQL
     end
 end
