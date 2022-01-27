@@ -79,6 +79,10 @@ class User
     def authored_questions
         Question.find_by_author_id(id)
     end
+
+    def authored_replies
+        Reply.find_by_user_id(id)
+    end
 end
 
 class Question 
@@ -136,6 +140,24 @@ class Question
 
     def author
         User.find_by_id(author_id)
+    end
+
+    def replies
+        Reply.find_by_question_id(id)
+    end    
+
+    def self.find_by_id(id)
+        question = QuestionsDBConnection.instance.execute(<<-SQL, id)
+            SELECT
+                *
+            FROM
+                questions
+            WHERE
+                id = ?
+        SQL
+        return nil unless question.length > 0
+
+        Question.new(question.first)
     end
 end
 
@@ -212,7 +234,43 @@ class Reply
         SQL
         return nil unless reply.length > 0
 
-        Reply.new(reply.first)
+        reply.map { |datum| Reply.new(datum) }
+    end
+
+    def author
+        User.find_by_id(user_id)
+    end
+
+    def question
+        Question.find_by_id(question_id)
+    end
+
+    def parent_reply
+            reply = QuestionsDBConnection.instance.execute(<<-SQL, parent_id)
+                SELECT
+                    *
+                FROM
+                    replies
+                WHERE
+                    id = ?
+            SQL
+            return nil unless reply.length > 0
+    
+            Reply.new(reply.first)
+    end
+
+    def child_replies
+        reply = QuestionsDBConnection.instance.execute(<<-SQL, id)
+                SELECT
+                    *
+                FROM
+                    replies
+                WHERE
+                    parent_id = ?
+            SQL
+            return nil unless reply.length > 0
+
+            reply.map { |datum| Reply.new(datum) }
     end
 
     def initialize(options)
