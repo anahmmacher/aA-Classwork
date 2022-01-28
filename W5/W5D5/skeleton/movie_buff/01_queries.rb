@@ -7,6 +7,9 @@ def it_was_ok
   #
   # Find the id, title, and score of all movies with scores between 2 and 3
 
+  # select the id, title and score, where the scores are between 2 & 3
+
+  Movie.select(:id, :title, :score).where('score BETWEEN 2 AND 3')
 end
 
 def harrison_ford
@@ -21,6 +24,9 @@ def harrison_ford
   # Find the id and title of all movies in which Harrison Ford
   # appeared but not as a lead actor
 
+  # select id & title of every movie where Harrison Ford is an actor, but not a lead
+
+  Movie.select(:id, :title).joins(:actors).where("actors.name = 'Harrison Ford' AND castings.ord != 1")#not(:casting{ord: 1})
 end
 
 def biggest_cast
@@ -37,7 +43,8 @@ def biggest_cast
   #
   # Find the id and title of the 3 movies with the
   # largest casts (i.e most actors)
-
+  # select id & title, joins w/ castings, group by actor_id, Order(count(actors.id DESC)) .Limit(3)
+  Movie.select(:id, :title).joins(:castings).group('movies.id').order("count(castings.id) DESC").limit(3)
 end
 
 def directed_by_one_of(them)
