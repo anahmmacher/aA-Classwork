@@ -60,6 +60,15 @@ def directed_by_one_of(them)
   #
   # Find the id and title of all the movies directed by one of 'them'.
 
+  #Look in the movies database
+  #Select id, title
+  #Where directed is in an array that includes multiple directors
+  #if movie.director_id = actor.id then return actor.name
+
+  #Movie.select(:title, :director_id).where(them.include?(self.director.name))
+  #Movie.select(:id, :title).joins(:actors).where('actors.name IN (?)', :them)
+  Movie.select(:id, :title).joins(:director).where('actors.name IN (?) AND director_id = actors.id', them)
+  #Actor.select(:movie_id, :movie_title).joins(:movies).where("'name IN (?)' them AND movie_director_id = id") 
 end
 
 def movie_names_before_1940
@@ -73,5 +82,10 @@ def movie_names_before_1940
   # improve performace for larger queries.
   #
   # Use pluck to find the title of all movies made before 1940.
+  # Movies table
+  # Select title
+  # Where yr < 1940
+  # Pluck title
 
+  Movie.where('movies.yr < 1940').pluck(:title)
 end
