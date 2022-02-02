@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   post '/users', to: 'users#create'
   patch '/users/:id', to: 'users#patch'
   delete '/users/:id', to: 'users#destroy'
+  get '/users/new', to: 'users#new', as: 'new_user'
+  get '/users/:id/edit', to: 'users#edit', as: 'edit_user'
+  put '/users/:id', to: 'users#update'
 
+### Target Result
 #                     users GET    /users(.:format)                                                                         users#index
 #                           POST   /users(.:format)                                                                         users#create
 #                  new_user GET    /users/new(.:format)                                                                     users#new
