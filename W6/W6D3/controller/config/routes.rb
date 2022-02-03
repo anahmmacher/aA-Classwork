@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users, except: [:new, :edit]
   resources :artworks, except: [:new, :edit]
   resources :artwork_shares, except: [:new, :edit, :update, :show]
+  get '/users/:id/artworks', to: 'users#artworks'
 
 
 

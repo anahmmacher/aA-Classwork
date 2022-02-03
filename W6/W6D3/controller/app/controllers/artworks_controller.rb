@@ -5,6 +5,8 @@ class ArtworksController < ApplicationController
     # render plain: "I'm in the index action!"
   end
 
+
+
   def create
   artwork = Artwork.new(artwork_params)
     if artwork.save
