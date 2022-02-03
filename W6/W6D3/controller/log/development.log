@@ -1611,3 +1611,26 @@ Processing by ArtworksController#show as */*
 Completed 200 OK in 5ms (Views: 0.6ms | ActiveRecord: 0.7ms)
 
 
+Started POST "/artworks?artwork[title]=%22Should%20break%22" for ::1 at 2022-02-03 13:19:55 -0500
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ /Users/cody/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/activerecord-5.2.6/lib/active_record/log_subscriber.rb:98
+
+SyntaxError - syntax error, unexpected ':', expecting `end'
+  private:
+         ^:
+  app/controllers/artworks_controller.rb:41:in `'
+
+Started POST "/artworks?artwork[title]=%22Should%20break%22" for ::1 at 2022-02-03 13:20:07 -0500
+Processing by ArtworksController#create as */*
+  Parameters: {"artwork"=>{"title"=>"\"Should break\""}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/artworks_controller.rb:11
+  [1m[36mArtwork Exists (2.0ms)[0m  [1m[34mSELECT  1 AS one FROM "artworks" WHERE "artworks"."title" = $1 AND "artworks"."artist_id" IS NULL LIMIT $2[0m  [["title", "\"Should break\""], ["LIMIT", 1]]
+  ↳ app/controllers/artworks_controller.rb:11
+  [1m[36mArtwork Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "artworks" WHERE "artworks"."image_url" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/artworks_controller.rb:11
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/artworks_controller.rb:11
+Completed 422 Unprocessable Entity in 27ms (Views: 0.2ms | ActiveRecord: 12.6ms)
+
+

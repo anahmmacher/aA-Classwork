@@ -7,11 +7,10 @@ class ArtworksController < ApplicationController
 
   def create
   artwork = Artwork.new(artwork_params)
-  # replace the `artwork_attributes_here` with the actual attribute keys
     if artwork.save
       render json: artwork
     else
-      render json: artwork.errors.full_messages, status: :unprocessable_entity
+      render json: artwork.errors.full_messages, status: 422
     end
   end
 
@@ -36,8 +35,9 @@ class ArtworksController < ApplicationController
     else
         render json: artwork.errors.full_messages, status: 422
     end
-end
+  end
 
+  private
   def artwork_params
     params.require(:artwork).permit(:title, :image_url, :artist_id)
   end
