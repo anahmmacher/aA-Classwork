@@ -13,3 +13,6 @@ artworks = Artwork.create([{title: "Drogo", image_url: "drogo.com", artist_id: 1
 
 artwork_shares = ArtworkShare.create([{artwork_id: 2, viewer_id: 1}, {artwork_id: 3, viewer_id: 4}, {artwork_id: 1, viewer_id: 5},
 {artwork_id: 1, viewer_id: 3}])
+
+comments = Comment.create([{body: "Nice!", commenter_id: 4 , artwork_id: 1}, {body: "Needs more maple syrup.", commenter_id: 3 , artwork_id: 3}, 
+{body: "Do you need Ubuntu help?", commenter_id: 2 , artwork_id: 2}])
