@@ -2,7 +2,12 @@ class UsersController < ApplicationController
 
   def index 
     users = User.all
-    render json: users
+    debugger
+      if params.has_key?(:username) #|| user_params.has_key?(:username)
+        user = 
+      else
+        render json: users
+      end
     # render plain: "I'm in the index action!"
   end
 

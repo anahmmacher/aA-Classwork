@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
   def index 
-    if comment_params.has_key?(:user_id)
-      comments = Comment.where(user_id: params[:user_id])
-    elsif comment_params.has_key(:artwork_id)
+    if params.has_key?(:user_id)
+      comments = Comment.where(commenter_id: params[:user_id])
+    elsif params.has_key?(:artwork_id)
       comments = Comment.where(artwork_id: params[:artwork_id])
     else  
       comments = Comment.all
