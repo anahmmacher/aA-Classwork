@@ -18,4 +18,6 @@ comments = Comment.create([{body: "Nice!", commenter_id: 4 , artwork_id: 1}, {bo
 {body: "Do you need Ubuntu help?", commenter_id: 2 , artwork_id: 2}])
 
 
-likes = Like.create([{user_id: 2, likeable: artworks.first}, {user_id: 3, likeable: comments.last}, {user_id: 1, likeable: comments.first}])
+likes = Like.create([{user_id: 2, likeable: artworks.first}, {user_id: 3, likeable: comments.last},
+{user_id: 1, likeable: comments.first}, {user_id: 1, likeable: comments.last}, {user_id: 1, likeable: artworks.first},
+{user_id: 1, likeable: artworks.last}])
