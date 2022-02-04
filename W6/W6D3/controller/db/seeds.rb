@@ -16,3 +16,6 @@ artwork_shares = ArtworkShare.create([{artwork_id: 2, viewer_id: 1}, {artwork_id
 
 comments = Comment.create([{body: "Nice!", commenter_id: 4 , artwork_id: 1}, {body: "Needs more maple syrup.", commenter_id: 3 , artwork_id: 3}, 
 {body: "Do you need Ubuntu help?", commenter_id: 2 , artwork_id: 2}])
+
+
+likes = Like.create([{user_id: 2, likeable: artworks.first}, {user_id: 3, likeable: comments.last}, {user_id: 1, likeable: comments.first}])

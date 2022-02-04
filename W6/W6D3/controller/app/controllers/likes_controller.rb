@@ -1,17 +1,26 @@
 class LikesController < ApplicationController
   def index 
     if params.has_key?(:user_id)
-      likes = Like.where(user_id: params[:user_id])
+      likes = Like.includes(:likeable).where(user_id: params[:user_id])
+      liked_obj = []
+      likes.each {|ele| liked_obj << ele.likeable}
+      render json: liked_obj
     elsif params.has_key?(:artwork_id)  
-      likes = Like.where("likes.likeable_type = 'Artwork' AND 
+      likes = Like.includes(:likeable).where("likes.likeable_type = 'Artwork' AND 
       likes.likeable_id = ? ", params[:artwork_id])
+      users = []
+      likes.each {|ele| users << ele.liker}
+      render json: users
     elsif params.has_key?(:comment_id)
-      likes = Like.where("likes.likeable_type = 'Comment' AND 
+      likes = Like.includes(:likeable).where("likes.likeable_type = 'Comment' AND 
       likes.likeable_id = ? ", params[:comment_id])
+      users = []
+      likes.each {|ele| users << ele.liker}
+      render json: users
     else
-    likes = Like.all 
+      likes = Like.all
+      render json: likes 
     end
-    render json: likes
   end 
 
   def create 
