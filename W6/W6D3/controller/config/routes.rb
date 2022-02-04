@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :artwork_shares, except: [:new, :edit, :update, :show]
   get '/users/:id/artworks', to: 'users#artworks'
   resources :comments, except: [:new, :edit, :update, :show]
+  resources :likes, only: [:index, :create, :destroy]
 
 
 

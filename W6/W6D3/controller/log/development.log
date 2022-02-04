@@ -3598,3 +3598,253 @@ Migrating to AddUserId (20220203234024)
   ↳ bin/rails:9
   [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   ↳ bin/rails:9
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4857247158849184785)[0m
+  ↳ bin/rails:9
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+Migrating to CreateLikes (20220203232728)
+  [1m[35m (5.9ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (44.4ms)[0m  [1m[35mCREATE TABLE "likes" ("id" bigserial primary key, "likeable_type" character varying, "likeable_id" bigint, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  ↳ db/migrate/20220203232728_create_likes.rb:3
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_likes_on_likeable_type_and_likeable_id" ON "likes"  ("likeable_type", "likeable_id")[0m
+  ↳ db/migrate/20220203232728_create_likes.rb:3
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220203232728"]]
+  ↳ bin/rails:9
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+Migrating to AddUserId (20220203234024)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (1.3ms)[0m  [1m[35mALTER TABLE "likes" ADD "user_id" integer[0m
+  ↳ db/migrate/20220203234024_add_user_id.rb:3
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE  INDEX  "index_likes_on_user_id" ON "likes"  ("user_id")[0m
+  ↳ db/migrate/20220203234024_add_user_id.rb:4
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220203234024"]]
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[36mActiveRecord::InternalMetadata Load (5.6ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ bin/rails:9
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ bin/rails:9
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ bin/rails:9
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(4857247158849184785)[0m
+  ↳ bin/rails:9
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[36mArtwork Load (2.9ms)[0m  [1m[34mSELECT  "artworks".* FROM "artworks" ORDER BY "artworks"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mArtwork Load (0.9ms)[0m  [1m[34mSELECT  "artworks".* FROM "artworks" ORDER BY "artworks"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (5.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mLike Create (3.2ms)[0m  [1m[32mINSERT INTO "likes" ("likeable_type", "likeable_id", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["likeable_type", "Artwork"], ["likeable_id", 1], ["created_at", "2022-02-04 00:07:09.644390"], ["updated_at", "2022-02-04 00:07:09.644390"], ["user_id", 2]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mLike Load (0.7ms)[0m  [1m[34mSELECT "likes".* FROM "likes"[0m
+  [1m[36mArtwork Load (0.6ms)[0m  [1m[34mSELECT  "artworks".* FROM "artworks" ORDER BY "artworks"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mLike Load (0.4ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."likeable_id" = $1 AND "likes"."likeable_type" = $2[0m  [["likeable_id", 1], ["likeable_type", "Artwork"]]
+  [1m[36mArtwork Load (0.7ms)[0m  [1m[34mSELECT  "artworks".* FROM "artworks" ORDER BY "artworks"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mLike Create (0.5ms)[0m  [1m[32mINSERT INTO "likes" ("likeable_type", "likeable_id", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["likeable_type", "Artwork"], ["likeable_id", 3], ["created_at", "2022-02-04 00:08:59.324759"], ["updated_at", "2022-02-04 00:08:59.324759"], ["user_id", 3]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mComment Load (1.0ms)[0m  [1m[34mSELECT  "comments".* FROM "comments" ORDER BY "comments"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mLike Create (0.8ms)[0m  [1m[32mINSERT INTO "likes" ("likeable_type", "likeable_id", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["likeable_type", "Comment"], ["likeable_id", 3], ["created_at", "2022-02-04 00:09:30.654273"], ["updated_at", "2022-02-04 00:09:30.654273"], ["user_id", 3]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mComment Load (0.4ms)[0m  [1m[34mSELECT  "comments".* FROM "comments" ORDER BY "comments"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mLike Create (0.4ms)[0m  [1m[32mINSERT INTO "likes" ("likeable_type", "likeable_id", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["likeable_type", "Comment"], ["likeable_id", 1], ["created_at", "2022-02-04 00:09:44.346258"], ["updated_at", "2022-02-04 00:09:44.346258"], ["user_id", 3]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mLike Load (0.3ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mLike Load (0.4ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 5]]
+Started GET "/likes" for ::1 at 2022-02-03 19:20:09 -0500
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ /Users/cody/.rbenv/versions/2.7.5/lib/ruby/gems/2.7.0/gems/activerecord-5.2.6/lib/active_record/log_subscriber.rb:98
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}}
+Completed 500 Internal Server Error in 31ms (ActiveRecord: 0.0ms)
+
+
+
+NoMethodError - undefined method `json' for #<LikesController:0x00000001064299e0>
+Did you mean?  JSON:
+  app/controllers/likes_controller.rb:4:in `index'
+
+Started GET "/likes" for ::1 at 2022-02-03 19:20:23 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}}
+  [1m[36mLike Load (1.0ms)[0m  [1m[34mSELECT "likes".* FROM "likes"[0m
+  ↳ app/controllers/likes_controller.rb:4
+Completed 200 OK in 19ms (Views: 4.2ms | ActiveRecord: 13.0ms)
+
+
+Started GET "/likes" for ::1 at 2022-02-03 19:25:43 -0500
+
+SyntaxError - syntax error, unexpected ',', expecting `then' or ';' or '\n'
+    if user_comment,
+                   ^
+/Users/cody/Desktop/Arthur's/aA-Classwork/W6/W6D3/controller/app/controllers/likes_controller.rb:5: syntax error, unexpected `elsif', expecting `end'
+    elsif artwork_id  
+    ^~~~~
+/Users/cody/Desktop/Arthur's/aA-Classwork/W6/W6D3/controller/app/controllers/likes_controller.rb:8: syntax error, unexpected `elsif', expecting `end'
+    elsif comment_id 
+    ^~~~~
+/Users/cody/Desktop/Arthur's/aA-Classwork/W6/W6D3/controller/app/controllers/likes_controller.rb:11: else without rescue is useless
+    else
+    ^~~~
+/Users/cody/Desktop/Arthur's/aA-Classwork/W6/W6D3/controller/app/controllers/likes_controller.rb:39: syntax error, unexpected `end', expecting end-of-input:
+  app/controllers/likes_controller.rb:3:in `'
+
+Started GET "/likes" for ::1 at 2022-02-03 19:26:27 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}}
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+
+NoMethodError - undefined method `has_key' for #<ActionController::Parameters:0x000000012a4a8578>
+Did you mean?  has_key?:
+  app/controllers/likes_controller.rb:3:in `index'
+
+Started GET "/likes" for ::1 at 2022-02-03 19:26:38 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}}
+  [1m[36mLike Load (0.4ms)[0m  [1m[34mSELECT "likes".* FROM "likes"[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 18ms (Views: 3.5ms | ActiveRecord: 13.0ms)
+
+
+Started GET "/likes?user_id=1" for ::1 at 2022-02-03 19:26:55 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"1"}
+  [1m[36mLike Load (0.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/likes?user_id=3" for ::1 at 2022-02-03 19:26:58 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"3"}
+  [1m[36mLike Load (0.7ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 3]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 3ms (Views: 1.3ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/likes?user_id=2" for ::1 at 2022-02-03 19:27:29 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"2"}
+  [1m[36mLike Load (0.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 2ms (Views: 0.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/likes?user_id=4" for ::1 at 2022-02-03 19:27:32 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"4"}
+  [1m[36mLike Load (5.3ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 4]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 7ms (Views: 1.0ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/likes?user_id=5" for ::1 at 2022-02-03 19:27:35 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"5"}
+  [1m[36mLike Load (0.3ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 5]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/likes?user_id=2" for ::1 at 2022-02-03 19:27:38 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"2"}
+  [1m[36mLike Load (0.6ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/likes?user_id=3" for ::1 at 2022-02-03 19:27:41 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "user_id"=>"3"}
+  [1m[36mLike Load (0.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = $1[0m  [["user_id", 3]]
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/likes?artwork_id=3" for ::1 at 2022-02-03 19:28:01 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "artwork_id"=>"3"}
+  [1m[36mLike Load (6.6ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likeslikable_id = '3' )[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 6.6ms)
+
+
+
+ActiveRecord::StatementInvalid - PG::UndefinedColumn: ERROR:  column "likeslikable_id" does not exist
+LINE 2:       likeslikable_id = '3' )
+              ^
+: SELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likeslikable_id = '3' ):
+  app/controllers/likes_controller.rb:14:in `index'
+
+Started GET "/likes?artwork_id=3" for ::1 at 2022-02-03 19:28:24 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "artwork_id"=>"3"}
+  [1m[36mLike Load (5.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likes.likable_id = '3' )[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 5.5ms)
+
+
+
+ActiveRecord::StatementInvalid - PG::UndefinedColumn: ERROR:  column likes.likable_id does not exist
+LINE 2:       likes.likable_id = '3' )
+              ^
+HINT:  Perhaps you meant to reference the column "likes.likeable_id".
+: SELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likes.likable_id = '3' ):
+  app/controllers/likes_controller.rb:14:in `index'
+
+Started GET "/likes?artwork_id=3" for ::1 at 2022-02-03 19:28:45 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "artwork_id"=>"3"}
+  [1m[36mLike Load (1.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likes.likeable_id = '3' )[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 19ms (Views: 3.9ms | ActiveRecord: 13.7ms)
+
+
+Started GET "/likes?artwork_id=2" for ::1 at 2022-02-03 19:28:51 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "artwork_id"=>"2"}
+  [1m[36mLike Load (0.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likes.likeable_id = '2' )[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/likes?artwork_id=1" for ::1 at 2022-02-03 19:28:54 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "artwork_id"=>"1"}
+  [1m[36mLike Load (0.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Artwork' AND 
+      likes.likeable_id = '1' )[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/likes?comment_id=3" for ::1 at 2022-02-03 19:29:06 -0500
+Processing by LikesController#index as */*
+  Parameters: {"user"=>{"username"=>"TayTay"}, "comment_id"=>"3"}
+  [1m[36mLike Load (0.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE (likes.likeable_type = 'Comment' AND 
+      likes.likeable_id = '3' )[0m
+  ↳ app/controllers/likes_controller.rb:14
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.5ms)
+
+
