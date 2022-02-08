@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-
+  before_action :require_logged_out, only: :new
+  
   def new
     @user = User.new
     render :new
@@ -9,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     
     if @user.save
-      # login!(@user)
+      login!(@user)
       redirect_to cats_url
     else
       render json: @user.errors.full_messages, status: 422

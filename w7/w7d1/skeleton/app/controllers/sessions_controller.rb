@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
-  
+  before_action :require_logged_out, only: :new
+  # 
+  # use logged_in?
+  # if logged_in?
+  # redirect_to cats_url
   helper_method :current_user
 
   def new
@@ -8,8 +12,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by_credentials(params[:user][:user_name], params[:user][:password])
-    @user.reset_session_token
+    @user = User.find_by_credentials(params[:user][:username], params[:user][:password])
+    login!(@user)
     redirect_to cats_url
   end
 
