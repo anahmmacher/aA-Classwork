@@ -95,6 +95,7 @@ Function.prototype.curry = function(numArgs) {
   const that = this;
 
   return function _curry(...callArgs) {
+    debugger 
     callArgs.forEach((ele) => {
       args.push(ele);
     })
