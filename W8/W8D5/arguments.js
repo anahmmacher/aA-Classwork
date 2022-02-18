@@ -7,18 +7,19 @@ function sum(...args){
     return sum;
 };
 
-console.log(sum(1, 2, 3, 4) === 10);
+/* console.log(sum(1, 2, 3, 4) === 10);
 console.log(sum(1, 2, 3, 4, 5) === 15);
-
+ */
 
 //-------------------------------------------------
 
-Function.prototype.myBind = function(context){
+Function.prototype.myBind = function(context, ...bindArgs){
     const that = this;
-    let bindArgs = Array.prototype.slice.call(arguments);
+/*     let bindArgs = Array.prototype.slice.call(arguments);
     bindArgs = bindArgs.slice(1);
-    return function(){
-        let callArgs = Array.prototype.slice.call(arguments);
+ */    
+    return function(...callArgs){
+        // let callArgs = Array.prototype.slice.call(arguments);
         that.call(context, ...bindArgs.concat(callArgs));
     }
 };
@@ -40,7 +41,7 @@ class Dog {
     }
 }
 
-const markov = new Cat("Markov");
+/* const markov = new Cat("Markov");
 const pavlov = new Dog("Pavlov");
 
 markov.says("meow", "Ned");
@@ -66,4 +67,50 @@ markov.says.myBind(pavlov, "meow")("Markov");
 const notMarkovSays = markov.says.myBind(pavlov);
 notMarkovSays("meow", "me");
 // Pavlov says meow to me!
-// true
+// true */
+
+
+//-------------------------------------------------
+
+function curriedSum(numArgs) {
+  let numbers = [];
+
+  return function _curriedSum(num){
+    numbers.push(num);
+    if (numbers.length === numArgs){
+      return numbers.reduce((acc, el) => { acc + el });
+    } else {
+      return _curriedSum;
+    }
+  }
+}
+
+/* const sumFunc = curriedSum(4);
+console.log(sumFunc(5)(30)(20)(1)); // => 56 */
+
+//-------------------------------------------------
+
+Function.prototype.curry = function(numArgs) {
+  let args = [];
+  const that = this;
+
+  return function _curry(...callArgs) {
+    callArgs.forEach((ele) => {
+      args.push(ele);
+    })
+    if (args.length === numArgs) {
+      // return that.apply(that, args);
+      return that.call(that, ...args);
+    } else {
+      return _curry;
+    }
+  }
+}
+
+function boringAddThreeNumbers(num1, num2, num3) {
+  console.log(num1 + num2 + num3);
+}
+
+boringAddThreeNumbers.curry(3)(1)(2)(3);
+boringAddThreeNumbers.curry(3)(1, 2, 3);
+
