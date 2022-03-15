@@ -1,0 +1,51 @@
+.tile {
+  display: block;
+  border-style: outset;
+  width: 20px;
+  height: 20px;
+  background-color: lightgray;
+  text-align: center;
+  align-content: center;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  width: 250px;
+  margin: 0 auto;
+}
+
+.explored {
+  background-color: darkgray;
+  border-style: inset;
+}
+
+.flagged, .bombed {
+  color: red;
+  padding-top: -5px;
+}
+
+.modal-screen {
+  position:fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  background-color: #fff;
+  display:flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  margin: 0 auto;
+
+}
