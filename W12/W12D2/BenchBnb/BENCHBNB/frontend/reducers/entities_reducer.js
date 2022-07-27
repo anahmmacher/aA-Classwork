@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
 
-import UsersReducer from "./users_reducer";
+import usersReducer from "./users_reducer";
+import benchesReducer from "./benches_reducer";
 
 const entitiesReducer = combineReducers({
-    users: UsersReducer
+  users: usersReducer,
+  benches: benchesReducer
 });
 
 export default entitiesReducer;
