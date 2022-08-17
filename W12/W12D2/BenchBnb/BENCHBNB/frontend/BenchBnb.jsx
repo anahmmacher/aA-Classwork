@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 import Root from './components/root'
 import configureStore from "./store/store";
 import {fetchBenches, fetchBench} from './util/bench_api_util'
-import { fetchAllBenches } from "./actions/bench_actions"
+import { fetchAllBenches, createBench } from "./actions/bench_actions"
+import {login, logout} from './actions/session_actions'
+import { asArray } from './reducers/selectors'
 
 document.addEventListener("DOMContentLoaded", () => {
     let store;
@@ -11,29 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const preloadedState = {
             session: { id: window.currentUser.id},
             entities: {
-                users: { [window.currentUser.id]: window.currentUser},
-                benches: {},
-                reviews: {}
+                users: { [window.currentUser.id]: window.currentUser}
             }
         };
         store = configureStore(preloadedState);
         delete window.currentUser;
     } else {
-        const pstate = {
-                entities: {
-                    users: {},
-                    reviews: {},
-                    benches: {}
-                },
-                session: {
-                    id: null,
-                },
-                errors: {
-                    session: []
-                }
-            }
-
-        store = configureStore(pstate);
+        store = configureStore();
     }
 
     window.getState = store.getState;
@@ -41,6 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.fetchBench = fetchBench;
     window.fetchBenches = fetchBenches;
     window.fetchAllBenches = fetchAllBenches;
+    window.login = login;
+    window.logout = logout;
+    window.asArray = asArray;
+    window.store = store;
+    window.createBench = createBench;
 
 
     const root = document.getElementById("root");
